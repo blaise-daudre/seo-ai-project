@@ -35,6 +35,13 @@ async function generate() {
   );
   const template = fs.readFileSync(templatePath, "utf-8");
 
+  // Copier les assets publics vers dist
+const publicAssets = path.join(__dirname, "../public");
+const distAssets = path.join(__dirname, "../dist");
+
+fs.cpSync(publicAssets, distAssets, { recursive: true });
+console.log("📦 Public assets copied to dist");
+
   // 3️⃣ Génération des pages
   view.forEach(item => {
     if (!item.slug || !item.title) {
