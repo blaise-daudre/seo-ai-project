@@ -1,10 +1,9 @@
 {
   "name": "seo-ai-project",
-  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/generate-professionals.js",
+    "build": "rm -rf dist && node scripts/generate-professionals.js",
     "dev": "vite"
   },
   "devDependencies": {
