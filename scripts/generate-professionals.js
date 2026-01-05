@@ -2,12 +2,14 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// 🔧 base path fiable
+const siteUrl = "https://dixo-test.netlify.app";
+
+// Base path fiable (ESM)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function generate() {
-  // 1️⃣ Récupérer les données depuis Xano
+  // 1️⃣ Récupération des données depuis Xano
   const response = await fetch(
     "https://xzxj-px3y-030z.p7.xano.io/api:aoU5pHZJ/seo/profesionnals"
   );
@@ -22,7 +24,7 @@ async function generate() {
     throw new Error("La réponse Xano n'est pas un tableau");
   }
 
-  // 2️⃣ Charger le template HTML
+  // 2️⃣ Chargement du template HTML
   const templatePath = path.join(
     __dirname,
     "../templates/professional.html"
@@ -31,19 +33,37 @@ async function generate() {
 
   // 3️⃣ Génération des pages
   view.forEach(item => {
-    if (!item.slug) {
-      console.warn("⚠️ slug manquant, fiche ignorée", item);
+    if (!item.slug || !item.title) {
+      console.warn("⚠️ Fiche ignorée (slug ou title manquant)", item);
       return;
     }
 
+    const firstName = item.first_name ?? "";
+    const lastName = item.last_name ?? "";
     const bio = item.bio ?? "";
+    const description = bio.slice(0, 160);
+
+    const pageUrl = `${siteUrl}/avocats/${item.slug}.html`;
 
     const html = template
-      .replaceAll("{{title}}", item.title ?? "")
-      .replace("{{meta_description}}", bio.slice(0, 160))
-      .replace("{{first_name}}", item.first_name ?? "")
-      .replace("{{last_name}}", item.last_name ?? "")
-      .replace("{{bio}}", bio);
+      // SEO
+      .replaceAll("{{title}}", item.title)
+      .replace("{{meta_description}}", description)
+      .replaceAll("{{canonical_url}}", pageUrl)
+
+      // Contenu
+      .replaceAll("{{first_name}}", firstName)
+      .replaceAll("{{last_name}}", lastName)
+      .replaceAll("{{bio}}", bio)
+
+      // Open Graph
+      .replaceAll("{{og_title}}", item.title)
+      .replaceAll("{{og_description}}", description)
+      .replaceAll("{{og_url}}", pageUrl)
+      .replaceAll(
+        "{{og_image}}",
+        `${siteUrl}/assets/og-default-avocat.jpg`
+      );
 
     const outputPath = path.join(
       __dirname,
