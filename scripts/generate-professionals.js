@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+console.log("🚀🚀🚀 SSG RUNNING ON NETLIFY 🚀🚀🚀");
+
 const siteUrl = "https://dixo-test.netlify.app";
 
 // Base path fiable (ESM)
