@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+const buildId = Date.now();
+
 console.log("🚀🚀🚀 SSG RUNNING ON NETLIFY 🚀🚀🚀");
 
 const siteUrl = "https://dixo-test.netlify.app";
@@ -45,27 +47,20 @@ async function generate() {
     const bio = item.bio ?? "";
     const description = bio.slice(0, 160);
 
-    const pageUrl = `${siteUrl}/avocats/${item.slug}.html`;
+const pageUrl = `${siteUrl}/avocats/${item.slug}.html`;
 
-    const html = template
-      // SEO
-      .replaceAll("{{title}}", item.title)
-      .replace("{{meta_description}}", description)
-      .replaceAll("{{canonical_url}}", pageUrl)
-
-      // Contenu
-      .replaceAll("{{first_name}}", firstName)
-      .replaceAll("{{last_name}}", lastName)
-      .replaceAll("{{bio}}", bio)
-
-      // Open Graph
-      .replaceAll("{{og_title}}", item.title)
-      .replaceAll("{{og_description}}", description)
-      .replaceAll("{{og_url}}", pageUrl)
-      .replaceAll(
-        "{{og_image}}",
-        `${siteUrl}/assets/og-default-avocat.jpg`
-      );
+const html = template
+  .replaceAll("{{title}}", item.title)
+  .replaceAll("{{meta_description}}", description)
+  .replaceAll("{{canonical_url}}", pageUrl)
+  .replaceAll("{{og_title}}", item.title)
+  .replaceAll("{{og_description}}", description)
+  .replaceAll("{{og_url}}", pageUrl)
+  .replaceAll("{{og_image}}", `${siteUrl}/assets/og-default-avocat.jpg`)
+  .replaceAll("{{first_name}}", firstName)
+  .replaceAll("{{last_name}}", lastName)
+  .replaceAll("{{bio}}", bio)
+  .replaceAll("{{build_id}}", buildId);
 
     const outputPath = path.join(
       __dirname,

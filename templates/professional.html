@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
+  <head>
+    <meta charset="UTF-8" />
 
-  <title>{{title}}</title>
-  <meta name="description" content="{{meta_description}}" />
+    <!-- build-id: {{build_id}} -->
 
-  <meta name="robots" content="index, follow" />
-</head>
-<body>
+    <title>{{title}}</title>
+    <meta name="description" content="{{meta_description}}" />
+    <link rel="canonical" href="{{canonical_url}}" />
 
-  <main>
+    <meta name="robots" content="index, follow" />
 
-    <!-- H1 SEO -->
-    <h1>{{title}}</h1>
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="{{og_title}}" />
+    <meta property="og:description" content="{{og_description}}" />
+    <meta property="og:url" content="{{og_url}}" />
+    <meta property="og:image" content="{{og_image}}" />
 
-    <!-- Identité humaine -->
-    <p>
-      <strong>{{first_name}} {{last_name}}</strong>
-    </p>
+    <!-- Profile enrichment -->
+    <meta property="profile:first_name" content="{{first_name}}" />
+    <meta property="profile:last_name" content="{{last_name}}" />
 
-    <!-- Contenu principal -->
-    <section>
-      <h2>Présentation</h2>
-      <p>{{bio}}</p>
-    </section>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{og_title}}" />
+    <meta name="twitter:description" content="{{og_description}}" />
+    <meta name="twitter:image" content="{{og_image}}" />
+  </head>
 
-  </main>
+  <body>
+    <main>
+      <h1>{{title}}</h1>
 
-</body>
+      <p>
+        <strong>{{first_name}} {{last_name}}</strong>
+      </p>
+
+      <section>
+        <h2>Présentation</h2>
+        <p>{{bio}}</p>
+      </section>
+    </main>
+  </body>
 </html>
